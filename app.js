@@ -13,7 +13,7 @@ app.engine("ejs",ejsMate);
 
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname,"/public")));
-app
+
 
 // setting up ejs
 app.set("view engine","ejs");
@@ -33,8 +33,6 @@ main()
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/explorica")
 }
-
-
 app.listen(port,()=>{
     console.log(`Server is running on http://localhost:${port}`);
 })
