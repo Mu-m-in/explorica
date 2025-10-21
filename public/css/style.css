@@ -1,0 +1,101 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+
+.navbar {
+    height: 5rem;
+    background-color: #fff;
+}
+.fa-compass{
+    color: #8c29e9;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color: #222222 !important;
+}
+.f-info-links a{
+    display: block;
+    text-decoration: none;
+    color: #222222;
+
+}
+.f-info-links a :hover{
+    text-decoration: underline;
+    color: #222222;
+
+}
+.f-info-links , .f-info-socials , .f-info-brand 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    vertical-align: middle;
+}
+.f-info-links {
+    display: flex;
+    flex-direction: column; /* stack links vertically */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.f-info-socials i{
+
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    color: #222222;
+}
+
+.f-info {
+    text-align: center;
+    height: 9rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    border: none !important;
+    margin: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    height:20rem;
+    border-radius: 1rem !important;
+    object-fit: cover;
+    width: 100% !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text p{
+    font-weight: 500;
+}
+
+.listing-link{
+    text-decoration: none;
+}
+.card-img-overlay{
+   opacity: 0;
+
+}  
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: #fff
+
+}
+.add-btn{
+    border: none;
+}
