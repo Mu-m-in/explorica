@@ -3,6 +3,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* background-color: #333 !important; */
 }
 .container{
     flex: 1;
@@ -13,7 +14,7 @@ body{
     background-color: #fff;
 }
 .fa-compass{
-    color: #aa3ce1;
+    color: #fe424d !important;
     font-size: 2rem;
 }
 
@@ -56,7 +57,6 @@ body{
 
 .f-info {
     text-align: center;
-    height: 9rem;
     background-color: #ebebeb;
     display: flex;
     flex-wrap: wrap;
@@ -64,20 +64,33 @@ body{
     align-items: center;
 }
 .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: none !important;
-    margin: 1rem;
-    margin-bottom: 2rem;
+    /* margin: 1rem; */
 }
 
 .card-img-top{
-    height:20rem;
+    height:13rem;
     border-radius: 1rem !important;
     object-fit: cover;
-    width: 100% !important;
 }
 
 .card-body{
-    padding: 0 !important;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.card-text{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #333;
 }
 
 .card-text p{
@@ -114,4 +127,21 @@ body{
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border: none !important;
+}
+.search-btn{
+    border-color: #fe424d !important;
+    background-color: #fe424d !important;
+    color: #fff !important;
+    border-radius: 25px !important;
+    padding: 0 1rem 0 1rem !important;
+}
+
+.search-btn i{
+    display: inline !important;
+    margin-right: 0.5rem;
+}
+
+.search-dest{
+    border-radius: 25px !important;
+    padding: 0.5rem 3rem 0.5rem 3rem !important;
 }

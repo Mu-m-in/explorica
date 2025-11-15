@@ -1,17 +1,31 @@
+if (process.env.NODE_ENV !="production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 const path = require("path");
-const Listing = require("./models/listing.js");
+const Listing = require("./models/listing.js"); 
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/WrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {listingSchema} = require("./schema.js");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+const {isLoggedIn} = require("./middleware.js");
+
 // using ejs-mate for layouts
 app.engine("ejs",ejsMate);
 
+const listingsRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname,"/public")));
@@ -22,8 +36,8 @@ app.use(express.json());
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"));
 
-
-
+// const mongoUrl = "mongodb://127.0.0.1:27017/explorica"
+const dbUrl = process.env.ATLASDB_URL;
 
 // mongoose connection
 main()
@@ -36,74 +50,55 @@ main()
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/explorica")
 }
-app.listen(port,()=>{
-    console.log(`Server is running on http://localhost:${port}`);
-})
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    crypto:{
+        secret:process.env.SECRET,
+    },
+    touchAfter: 3600*24,
+});
+
+const sessionOptions = {
+    store: store,
+    secret : process.env.SECRET,
+    resave : false,
+    saveUninitialized : true,
+    cookie : {
+        expires : Date.now() + 1000 * 60 *60 *24,
+        maxAge : 1000 * 60 *60 *24,
+        httpOnly : true
+    }
+}
+
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate())); 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());   
+
 
 // home route
-app.get("/",(req,res)=>{
-    res.send("Welcome to Explorica Home Page");
-})
-
-const validateListing = (req,res,next)=>{
-    let {error} = listingSchema.validate(req.body);
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",");
-        throw new ExpressError(400,errMsg);
-    }else{
-        next();
-    }}
-
-// listings route
-app.get("/listings",wrapAsync(async(req,res)=>{
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs",{allListings});
-}))
-//new route
-app.get("/listings/new", (req,res)=>{
-    res.render("listings/new.ejs");
-})
-
-//show route
-app.get("/listings/:id",wrapAsync(async(req,res)=>{
-    const {id} =req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/show.ejs",{listing});
-}))
-//create route
-app.post("/listings",validateListing,wrapAsync( async (req, res , next) => {
-    
-    const listingData = req.body.listing || {};
-    if (typeof listingData.image === "string" && listingData.image.trim()) {
-      listingData.image = { filename: "listingimage", url: listingData.image.trim() };
-    }
-    const newlisting = new Listing(listingData);
-    await newlisting.save();
-    res.redirect("/listings");
- 
-}))
- 
-//edit route
-app.get("/listings/edit/:id",wrapAsync(async(req,res)=>{
-    const {id} = req.params;
-    const listing = await Listing.findById(id);
-    res.render("listings/edit.ejs",{listing});
-}))
-
-//update route
-app.put("/listings/:id", validateListing,wrapAsync(async(req,res)=>{
-    const {id} = req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    res.redirect(`/listings/${id}`);
-}))
-
-app.delete("/listings/delete/:id", wrapAsync(async(req,res)=>{
-    const {id} = req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-}))
+// app.get("/",(req,res)=>{
+//     res.send("Welcome to Explorica Home Page");
+// })
 
 app.use((req,res,next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
+    next();
+})
+
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewRouter );
+app.use("/", userRouter );
+
+app.all(/.*/,(req,res,next)=>{
     next(new ExpressError(404,"Page Not Found"));
 })
 app.use((err,req,res,next)=>{
@@ -111,3 +106,7 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).render("listings/error.ejs",{err});
 })
 
+
+app.listen(port,()=>{
+    console.log(`Server is running on http://localhost:${port}`);
+})

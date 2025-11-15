@@ -1,8 +1,8 @@
 <% layout('layout/boilerplate') -%>
 <div class="row mt-3">
-    <div class="col-8 offset-2">
+    <div class="col-6 offset-3">
         <h3>Edit a listing</h3>
-        <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" class="needs-validation" novalidate>
+        <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" class="needs-validation" novalidate enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" name="listing[title]" id="title" value="<%=listing.title%>" class="form-control" required/>
@@ -13,17 +13,16 @@
                 <textarea name="listing[description]" id="description" class="form-control" required><%=listing.description%></textarea>
                 <div class="invalid-feedback">Description is required</div>
             </div>
+            
             <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input type="text" 
-                       name="listing[image][url]" 
+                <img src="<%= originalImageUrl%>" alt="img">
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload new Image </label>
+                <input type="file" 
+                       name="listing[image]" 
                        id="image" 
-                       value="<%= (listing.image && listing.image.url) ? listing.image.url : listing.image %>" 
-                       class="form-control" required/>
-                <div class="invalid-feedback">Image URL is required</div>
-                <input type="hidden" 
-                       name="listing[image][filename]" 
-                       value="listingimage"/>
+                       class="form-control" />
             </div>
             <div class="row">
                 <div class="mb-3 col-md-4">
