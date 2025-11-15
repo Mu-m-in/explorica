@@ -72,7 +72,6 @@ module.exports.destroyListing = async(req,res)=>{
     req.flash("success", "Listing deleted successfull!");
     res.redirect("/listings");
 }
-
 module.exports.search = async(req,res)=>{
     let {q=""}= req.query;
     const allListings = q? await Listing.find({

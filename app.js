@@ -48,7 +48,7 @@ main()
 })
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/explorica")
+    await mongoose.connect(dbUrl);
 }
 
 const store = MongoStore.create({
@@ -79,24 +79,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate())); 
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());   
+passport.deserializeUser(User.deserializeUser());
 
-
-// home route
-// app.get("/",(req,res)=>{
-//     res.send("Welcome to Explorica Home Page");
-// })
-
-app.use((req,res,next)=>{
+// Add this middleware HERE
+app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
     next();
-})
+});
 
+// Then your routes
 app.use("/listings", listingsRouter);
-app.use("/listings/:id/reviews", reviewRouter );
-app.use("/", userRouter );
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
 
 app.all(/.*/,(req,res,next)=>{
     next(new ExpressError(404,"Page Not Found"));
