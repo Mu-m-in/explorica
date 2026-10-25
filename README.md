@@ -4,8 +4,7 @@
 
 **Explorica** is a full-stack property listing and booking/renting web application where users can explore properties across different destinations, view listing details, and interact with a property marketplace through a server-rendered web interface.
 
-🌐 **Live Demo:** [explorica.onrender.com](https://explorica.onrender.com)  
-📦 **Source Code:** [github.com/Mu-m-in/explorica](https://github.com/Mu-m-in/explorica)
+🌐 **Live Demo:** [explorica.onrender.com](https://explorica.onrender.com) 
 
 ---
 
