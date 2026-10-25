@@ -1,6 +1,9 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
+        <a class="navbar-brand" href="/listings" aria-label="Explorica home">
+            <i class="fa-solid fa-compass" aria-hidden="true"></i>
+            <span>Explorica</span>
+        </a>
         <button class="navbar-toggler" type="button" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Open navigation menu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,16 +18,33 @@
                     <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="navbar-nav">
+            <div class="navbar-nav navbar-primary-nav">
                 <a class="nav-link" href="/listings">Explore</a>
             </div>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/listings/new">Become a host</a>
+            <div class="navbar-nav navbar-account-nav ms-auto">
+                <a class="nav-link host-link" href="/listings/new">Become a host</a>
                 <% if(typeof currUser === "undefined" || !currUser){ %>
-                    <a class="nav-link" href="/signup"><b>Sign up</b></a>
-                    <a class="nav-link" href="/login"><b>Log in</b></a>
+                    <a class="nav-link signup-link" href="/signup"><b>Sign up</b></a>
+                    <a class="nav-link login-link" href="/login"><b>Log in</b></a>
                 <% } else { %>
-                    <a class="nav-link" href="/logout"><b>Log out</b></a>
+                    <div class="nav-item dropdown">
+                        <button class="nav-link dropdown-toggle" type="button" id="bookingMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            Bookings
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bookingMenu">
+                            <li><a class="dropdown-item" href="/bookings/mine">My bookings</a></li>
+                            <li><a class="dropdown-item" href="/bookings/manage">Manage bookings</a></li>
+                        </ul>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <button class="nav-link dropdown-toggle account-toggle" type="button" id="accountMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-regular fa-user" aria-hidden="true"></i>
+                            <span><%= currUser.username %></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountMenu">
+                            <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                        </ul>
+                    </div>
                 <% } %>
             </div>
         </div>

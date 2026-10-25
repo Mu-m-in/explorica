@@ -29,7 +29,7 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') setDrawerOpen(false)
   })
-  window.matchMedia('(min-width: 768px)').addEventListener('change', event => {
+  window.matchMedia('(min-width: 992px)').addEventListener('change', event => {
     if (event.matches) setDrawerOpen(false)
   })
 
