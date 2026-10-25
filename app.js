@@ -20,6 +20,7 @@ const User = require("./models/user.js");
 
 const listingsRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
+const bookingRouter = require("./routes/booking.js");
 const userRouter = require("./routes/user.js");
 
 // View engine configuration
@@ -108,6 +109,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/listings", listingsRouter);
+app.use("/bookings", bookingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 

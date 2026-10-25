@@ -31,12 +31,27 @@
         <div class="invalid-feedback">Price is required</div>
         </div>
 
-        <div class="mb-3 col-md-8">
+            <div class="mb-3 col-md-4">
+                <label for="rentalType" class="form-label">Rental type</label>
+                <select name="listing[rentalType]" id="rentalType" class="form-select" required>
+                    <option value="short-term" selected>Short-term</option>
+                    <option value="long-term">Long-term</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="pricingUnit" class="form-label">Price unit</label>
+                <select name="listing[pricingUnit]" id="pricingUnit" class="form-select" required>
+                    <option value="night" selected>Night</option>
+                    <option value="month">Month</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
             <label for="country" class="form-label">Country</label>
         <input type="text" name="listing[country]" id="country" placeholder="Country" class="form-control" required/>
         <div class="invalid-feedback">Country is required</div>
-        </div>
-    
         </div>
 
         <div class="mb-3">

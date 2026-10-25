@@ -30,11 +30,26 @@
                     <input type="number" name="listing[price]" id="price" value="<%=listing.price%>" class="form-control" required/>
                     <div class="invalid-feedback">Price is required</div>
                 </div>
-                <div class="mb-3 col-md-8"> 
-                    <label for="country" class="form-label">Country</label>
-                    <input type="text" name="listing[country]" id="country" value="<%=listing.country%>" class="form-control" required/>
-                    <div class="invalid-feedback">Country is required</div>
+                <div class="mb-3 col-md-4">
+                    <label for="rentalType" class="form-label">Rental type</label>
+                    <select name="listing[rentalType]" id="rentalType" class="form-select" required>
+                        <option value="short-term" <%= (listing.rentalType || 'short-term') === 'short-term' ? 'selected' : '' %>>Short-term</option>
+                        <option value="long-term" <%= (listing.rentalType || 'short-term') === 'long-term' ? 'selected' : '' %>>Long-term</option>
+                    </select>
                 </div>
+                <div class="mb-3 col-md-4">
+                    <label for="pricingUnit" class="form-label">Price unit</label>
+                    <select name="listing[pricingUnit]" id="pricingUnit" class="form-select" required>
+                        <option value="night" <%= (listing.pricingUnit || 'night') === 'night' ? 'selected' : '' %>>Night</option>
+                        <option value="month" <%= (listing.pricingUnit || 'night') === 'month' ? 'selected' : '' %>>Month</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" name="listing[country]" id="country" value="<%=listing.country%>" class="form-control" required/>
+                <div class="invalid-feedback">Country is required</div>
             </div>
 
             <div class="mb-3">

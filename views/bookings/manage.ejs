@@ -1,0 +1,66 @@
+<% layout('/layout/boilerplate') -%>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h3 class="mb-0">Manage booking requests</h3>
+    <a href="/listings/new" class="btn btn-outline-dark">Add listing</a>
+  </div>
+
+  <% if (!bookings || bookings.length === 0) { %>
+    <div class="alert alert-light border">No booking requests for your listings.</div>
+  <% } else { %>
+    <div class="booking-list">
+      <% for (let booking of bookings) { %>
+        <div class="card booking-item">
+          <div class="row g-0 align-items-center">
+            <div class="col-md-3">
+              <% if (booking.listing && booking.listing.image && booking.listing.image.url) { %>
+                <img src="<%= booking.listing.image.url %>" class="img-fluid booking-thumb" alt="<%= booking.listing.title %>">
+              <% } %>
+            </div>
+            <div class="col-md-9">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                  <div>
+                    <h5 class="mb-1"><%= booking.listing ? booking.listing.title : "Listing removed" %></h5>
+                    <p class="mb-2 text-muted">
+                      Renter: <%= booking.renter ? booking.renter.username : "Unknown" %>
+                    </p>
+                  </div>
+                  <span class="status-badge status-<%= booking.status %>"><%= booking.status %></span>
+                </div>
+
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>Dates:</strong> <%= booking.startDate.toLocaleDateString("en-IN") %> to <%= booking.endDate.toLocaleDateString("en-IN") %></p>
+                    <p class="mb-1"><strong>Duration:</strong> <%= booking.durationDays %> day(s)</p>
+                    <p class="mb-1"><strong>Guest count:</strong> <%= booking.guestCount || 1 %></p>
+                    <p class="mb-0"><strong>Price snapshot:</strong> ₹<%= booking.priceSnapshot.toLocaleString("en-IN") %></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>Estimated total:</strong> ₹<%= booking.estimatedTotal.toLocaleString("en-IN") %></p>
+                    <p class="mb-1"><strong>Submitted:</strong> <%= booking.createdAt.toLocaleString("en-IN") %></p>
+                    <% if (booking.respondedAt) { %>
+                      <p class="mb-0"><strong>Response:</strong> <%= booking.respondedAt.toLocaleString("en-IN") %></p>
+                    <% } %>
+                  </div>
+                </div>
+
+                <% if (booking.status === "pending") { %>
+                  <div class="mt-3 d-flex gap-2 flex-wrap">
+                    <form action="/bookings/<%= booking._id %>/approve" method="POST">
+                      <button class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                    <form action="/bookings/<%= booking._id %>/reject" method="POST">
+                      <button class="btn btn-outline-danger btn-sm">Reject</button>
+                    </form>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+</div>
