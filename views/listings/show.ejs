@@ -11,6 +11,26 @@
         <div class="card-body px-4">
           <p class="card-text mt-3">
             <p> Owned by <strong> <em> <%= listing.owner.username %> </em> </strong></p>
+           <% const bedrooms = Number.isInteger(listing.bedrooms) && listing.bedrooms > 0 ? listing.bedrooms : "-"; %>
+           <% const bathrooms = Number.isInteger(listing.bathrooms) && listing.bathrooms > 0 ? listing.bathrooms : "-"; %>
+           <% const squareFeet = Number.isInteger(listing.squareFeet) && listing.squareFeet > 0 ? listing.squareFeet.toLocaleString("en-IN") : "-"; %>
+           <div class="row row-cols-3 text-center my-4 listing-specifications">
+             <div class="col">
+               <i class="fa-solid fa-bed" aria-hidden="true"></i>
+               <div class="fs-4 fw-semibold"><%= bedrooms %></div>
+               <div class="text-muted">Bedrooms</div>
+             </div>
+             <div class="col">
+               <i class="fa-solid fa-bath" aria-hidden="true"></i>
+               <div class="fs-4 fw-semibold"><%= bathrooms %></div>
+               <div class="text-muted">Bathrooms</div>
+             </div>
+             <div class="col">
+               <i class="fa-solid fa-ruler-combined" aria-hidden="true"></i>
+               <div class="fs-4 fw-semibold"><%= squareFeet %></div>
+               <div class="text-muted">Sq ft</div>
+             </div>
+           </div>
            <p> <%= listing.description %> </p>
            <p class="card-text"> <b>&#8377; <%= listing.price.toLocaleString("en-IN") %></b></p>
            <p class="card-text"> <%= listing.location %>, <%= listing.country %> </p>

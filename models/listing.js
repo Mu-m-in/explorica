@@ -11,6 +11,9 @@ const listingSchema = new Schema({
     filename : String
    },
   price: { type: Number, required: true },
+  bedrooms: { type: Number, min: 1, validate: Number.isInteger },
+  bathrooms: { type: Number, min: 1, validate: Number.isInteger },
+  squareFeet: { type: Number, min: 1, validate: Number.isInteger },
   location: { type: String, required: true },
   country: { type: String, required: true },
   reviews:[{

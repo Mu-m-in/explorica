@@ -42,6 +42,21 @@
                 <input type="text" name="listing[location]" id="location" value="<%=listing.location%>" class="form-control" required/>
                 <div class="invalid-feedback">Location is required</div>
             </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="bedrooms" class="form-label">Bedrooms</label>
+                    <input type="number" name="listing[bedrooms]" id="bedrooms" min="1" step="1" placeholder="Bedrooms" value="<%= listing.bedrooms ?? '' %>" class="form-control"/>
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="bathrooms" class="form-label">Bathrooms</label>
+                    <input type="number" name="listing[bathrooms]" id="bathrooms" min="1" step="1" placeholder="Bathrooms" value="<%= listing.bathrooms ?? '' %>" class="form-control"/>
+                </div>
+                <div class="mb-3 col-md-4">
+                    <label for="squareFeet" class="form-label">Sq ft</label>
+                    <input type="number" name="listing[squareFeet]" id="squareFeet" min="1" step="1" placeholder="Square feet" value="<%= listing.squareFeet ?? '' %>" class="form-control"/>
+                </div>
+            </div>
            
             <div class="mb-3">
                 <button class="btn btn-dark edit-btn">Save changes</button>

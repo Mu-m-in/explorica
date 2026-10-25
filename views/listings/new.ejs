@@ -45,8 +45,22 @@
         <div class="invalid-feedback">Location is required</div>
         </div>
 
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="bedrooms" class="form-label">Bedrooms</label>
+                <input type="number" name="listing[bedrooms]" id="bedrooms" min="1" step="1" placeholder="Bedrooms" class="form-control"/>
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="bathrooms" class="form-label">Bathrooms</label>
+                <input type="number" name="listing[bathrooms]" id="bathrooms" min="1" step="1" placeholder="Bathrooms" class="form-control"/>
+            </div>
+            <div class="mb-3 col-md-4">
+                <label for="squareFeet" class="form-label">Sq ft</label>
+                <input type="number" name="listing[squareFeet]" id="squareFeet" min="1" step="1" placeholder="Square feet" class="form-control"/>
+            </div>
+        </div>
+
         <button class="btn btn-dark add-btn">Create Listing</button>
     </form>
     </div>
     </div>
-
