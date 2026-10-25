@@ -154,6 +154,13 @@ body.nav-drawer-open {
     margin: 0;
 }
 
+.listing-specifications .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
 .card-img-overlay{
    opacity: 0;
 
