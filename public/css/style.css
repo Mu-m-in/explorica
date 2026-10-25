@@ -3,6 +3,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
     /* background-color: #333 !important; */
 }
 .container{
@@ -12,7 +13,48 @@ body{
 .navbar {
     height: 5rem;
     background-color: #fff;
+    z-index: 1040;
 }
+
+.navbar-search {
+    flex: 1 1 28rem;
+    max-width: 34rem;
+    margin-inline: auto;
+}
+
+.navbar-search .search-dest {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.navbar-collapse {
+    flex-grow: 0;
+}
+
+.drawer-header {
+    display: none;
+}
+
+.nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1030;
+    border: 0;
+    background: rgba(0, 0, 0, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.nav-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+body.nav-drawer-open {
+    overflow: hidden;
+}
+
 .fa-compass{
     color: #fe424d !important;
     font-size: 2rem;
@@ -72,7 +114,8 @@ body{
 }
 
 .card-img-top{
-    height:13rem;
+    width: 100%;
+    aspect-ratio: 4 / 3;
     border-radius: 1rem !important;
     object-fit: cover;
 }
@@ -99,7 +142,18 @@ body{
 
 .listing-link{
     text-decoration: none;
+    display: block;
+    height: 100%;
 }
+
+.listing-title {
+    margin: 0;
+}
+
+.listing-price {
+    margin: 0;
+}
+
 .card-img-overlay{
    opacity: 0;
 
@@ -144,4 +198,125 @@ body{
 .search-dest{
     border-radius: 25px !important;
     padding: 0.5rem 3rem 0.5rem 3rem !important;
+}
+
+@media (max-width: 767.98px) {
+    .navbar {
+        height: auto;
+        min-height: 5rem;
+        padding: 0.55rem 0 0.75rem;
+    }
+
+    .navbar > .container-fluid {
+        row-gap: 0.55rem;
+    }
+
+    .navbar-brand {
+        margin: 0;
+    }
+
+    .navbar-toggler {
+        margin-left: auto;
+    }
+
+    .navbar-search {
+        order: 2;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: none;
+        justify-content: center;
+        margin: 0;
+    }
+
+    .navbar-search .search-dest {
+        padding: 0.5rem 0.9rem !important;
+    }
+
+    .navbar-search .search-btn {
+        flex: 0 0 auto;
+        padding: 0 0.85rem !important;
+    }
+
+    .navbar-collapse {
+        position: fixed;
+        inset: 0 0 0 auto;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        width: min(80vw, 22rem);
+        height: 100vh;
+        height: 100dvh;
+        padding: 1.25rem 1.5rem;
+        overflow-y: auto;
+        background: #fff;
+        box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.12);
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform 0.25s ease, visibility 0.25s ease;
+    }
+
+    .navbar.is-drawer-open .navbar-collapse {
+        transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .navbar.is-drawer-open {
+        pointer-events: none;
+    }
+
+    .drawer-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        padding: 0 2.5rem 1rem;
+        border-bottom: 1px solid #ebebeb;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .drawer-close {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0;
+        border-radius: 50%;
+        background: transparent;
+        color: #222;
+        font-size: 1.2rem;
+        transform: translateY(-50%);
+    }
+
+    .navbar-collapse .navbar-nav {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin: 0 !important;
+    }
+
+    .navbar-collapse .nav-link {
+        padding: 0.95rem 0.5rem;
+        font-size: 1.05rem;
+        text-align: center;
+    }
+
+    .card-img-top {
+        aspect-ratio: 16 / 10;
+    }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-backdrop,
+    .navbar-collapse {
+        transition-duration: 0.01ms;
+    }
 }

@@ -1,31 +1,26 @@
 <% layout('layout/boilerplate') -%>
-<body>
   <% if(typeof q !=="undefined") { %>
     <div class="text-center mb-4">
       <h3>Search results for "<%=q %>"</h3>
     </div>
   <% } %>
-  <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
-   <% if(allListings.length===0) { %>
-    <div class="text-center  mb-4"></div>
-      <p>No Listings found</p>
-      </div>
+  <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 g-4 listings-grid">
+   <% if(allListings.length === 0) { %>
+      <p class="col text-center mb-4">No Listings found</p>
     <% } else {%>
     <% for(let listing of allListings) { %>
+      <div class="col">
         <a href="/listings/<%=listing._id%>" class="listing-link">
-            <div class="card h-100">
-      <img src="<%= listing.image.url %>" class="card-img-top" alt="listing image">
-      <div class="card-img-overlay"></div>
-      <div class="card-body">
-        <p class="card-text mt-3"> <%= listing.title %></p>
-        <p> <i> &#8377; <%= listing.price.toLocaleString("en-IN") %> for 2 nights  </i></p>
-      </div>
-    </div>
-     
+          <div class="card h-100">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
+            <div class="card-img-overlay"></div>
+            <div class="card-body">
+              <p class="card-text listing-title"><%= listing.title %></p>
+              <p class="listing-price"><i>&#8377; <%= listing.price.toLocaleString("en-IN") %> for 2 nights</i></p>
+            </div>
+          </div>
         </a>
+      </div>
     <% } %>
     <% } %>
 </div>
-
-
-</body>

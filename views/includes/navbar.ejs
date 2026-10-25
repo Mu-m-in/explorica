@@ -1,18 +1,22 @@
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass"></i></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Open navigation menu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <form class="navbar-search d-flex" role="search" method="get" action="/listings/search">
+            <input class="form-control me-2 search-dest" type="search" placeholder="Search Destinations" name="q" />
+            <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></button>
+        </form>
+        <div class="navbar-collapse" id="navbarNavAltMarkup">
+            <div class="drawer-header">
+                <span>Explore Explorica</span>
+                <button class="drawer-close" type="button" aria-label="Close navigation menu">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
             <div class="navbar-nav">
                 <a class="nav-link" href="/listings">Explore</a>
-            </div>
-            <div class="navbar-nav ms-auto">
-                <form class="d-flex" role="search" method="get" action="/listings/search">
-                    <input class="form-control me-2 search-dest" type="search" placeholder="Search Destinations" name="q" />
-                    <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
-                </form>
             </div>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/listings/new">Become a host</a>
@@ -26,3 +30,4 @@
         </div>
     </div>
 </nav>
+<button class="nav-backdrop" type="button" aria-label="Close navigation menu"></button>
