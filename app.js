@@ -1,6 +1,5 @@
-
 if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
+  require("dotenv").config();
 }
 
 const express = require("express");
@@ -22,6 +21,8 @@ const listingsRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const bookingRouter = require("./routes/booking.js");
 const userRouter = require("./routes/user.js");
+const { timeStamp } = require("console");
+const { uptime } = require("process");
 
 // View engine configuration
 app.engine("ejs", ejsMate);
@@ -38,52 +39,53 @@ app.use(express.json());
 const dbUrl = process.env.ATLASDB_URL;
 
 if (!dbUrl) {
-    throw new Error("ATLASDB_URL is missing from the environment");
+  throw new Error("ATLASDB_URL is missing from the environment");
 }
 
 if (!process.env.SECRET) {
-    throw new Error("SECRET is missing from the environment");
+  throw new Error("SECRET is missing from the environment");
 }
 
-mongoose.connect(dbUrl)
-    .then(() => {
-        console.log("Database connected");
-    })
-    .catch((err) => {
-        console.error("Database connection failed:", err.message);
-        process.exit(1);
-    });
+mongoose
+  .connect(dbUrl)
+  .then(() => {
+    console.log("Database connected");
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err.message);
+    process.exit(1);
+  });
 
 // Session store
 const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    crypto: {
-        secret: process.env.SECRET,
-    },
-    touchAfter: 3600 * 24,
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 3600 * 24,
 });
 
 store.on("error", (err) => {
-    console.error("Session store error:", err.message);
+  console.error("Session store error:", err.message);
 });
 
 // Trust Render's reverse proxy for HTTPS cookie handling.
 // Enable this only when deployed behind a trusted proxy.
 if (process.env.NODE_ENV === "production") {
-    app.set("trust proxy", 1);
+  app.set("trust proxy", 1);
 }
 
 const sessionOptions = {
-    store,
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-    },
+  store,
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+  },
 };
 
 app.use(session(sessionOptions));
@@ -97,15 +99,15 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
-    next();
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
+  next();
 });
 
 // Routes
 app.get("/", (req, res) => {
-    res.redirect("/listings");
+  res.redirect("/listings");
 });
 
 app.use("/listings", listingsRouter);
@@ -113,20 +115,28 @@ app.use("/bookings", bookingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    timeStamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
+
 // 404 handler
 app.all(/.*/, (req, res, next) => {
-    next(new ExpressError(404, "Page Not Found"));
+  next(new ExpressError(404, "Page Not Found"));
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err;
+  const { statusCode = 500 } = err;
 
-    res.status(statusCode).render("listings/error.ejs", {
-        err,
-    });
+  res.status(statusCode).render("listings/error.ejs", {
+    err,
+  });
 });
 
 app.listen(port, "0.0.0.0", () => {
-    console.log(`Explorica server running on port ${port}`);
+  console.log(`Explorica server running on port ${port}`);
 });
